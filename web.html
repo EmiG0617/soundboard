@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Soundboard</title>
+</head>
+<body>
+
+<h1>My Soundboard</h1>
+
+<button onclick="playSound('dead_sign.mp3')">Dead Sign</button>
+<button onclick="playSound('missing_delineator.mp3')">Missing Delineator</button>
+<button onclick="playSound('missing_sign.mp3')">Missing Sign</button>
+
+<script>
+function playSound(file) {
+    const audio = new Audio(file);
+    audio.play();
+}
+</script>
+
+</body>
+</html>
