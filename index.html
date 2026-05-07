@@ -2,20 +2,230 @@
 <html>
 <head>
   <title>Soundboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --panel: #13161e;
+      --border: #1e2330;
+      --accent-delineator: #f59e0b;
+      --accent-lighting: #38bdf8;
+      --accent-sign: #f87171;
+      --accent-striping: #a3e635;
+      --accent-rpm: #c084fc;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --btn-bg: #1a1f2e;
+      --btn-hover: #242a3b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      color: var(--text);
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--text);
+      margin: 0.5rem auto 0;
+      opacity: 0.3;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-top-width: 3px;
+      border-radius: 4px;
+      padding: 1.25rem;
+      position: relative;
+    }
+
+    .section--delineator { border-top-color: var(--accent-delineator); }
+    .section--lighting   { border-top-color: var(--accent-lighting); }
+    .section--sign       { border-top-color: var(--accent-sign); }
+    .section--striping   { border-top-color: var(--accent-striping); }
+    .section--rpm        { border-top-color: var(--accent-rpm); }
+
+    .section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section--delineator .section-title { color: var(--accent-delineator); }
+    .section--lighting   .section-title { color: var(--accent-lighting); }
+    .section--sign       .section-title { color: var(--accent-sign); }
+    .section--striping   .section-title { color: var(--accent-striping); }
+    .section--rpm        .section-title { color: var(--accent-rpm); }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    button {
+      background: var(--btn-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.55rem 0.85rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      background: var(--btn-hover);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .section--delineator button:hover { border-color: var(--accent-delineator); color: var(--accent-delineator); }
+    .section--lighting   button:hover { border-color: var(--accent-lighting);   color: var(--accent-lighting); }
+    .section--sign       button:hover { border-color: var(--accent-sign);       color: var(--accent-sign); }
+    .section--striping   button:hover { border-color: var(--accent-striping);   color: var(--accent-striping); }
+    .section--rpm        button:hover { border-color: var(--accent-rpm);        color: var(--accent-rpm); }
+
+    button.playing {
+      animation: pulse 0.3s ease;
+    }
+
+    @keyframes pulse {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
 
-<h1>My Soundboard</h1>
+<h1>Soundboard</h1>
 
-<button onclick="playSound('dead_sign.mp3')">Dead Sign</button>
-<button onclick="playSound('missing_delineator.mp3')">Missing Delineator</button>
-<button onclick="playSound('missing_sign.mp3')">Missing Sign</button>
+<div class="grid">
+
+  <!-- Delineator Commands -->
+  <div class="section section--delineator">
+    <div class="section-title">Delineator Commands</div>
+    <div class="buttons">
+      <button onclick="playSound('missing_delineator.mp3', this)">Missing Delineator</button>
+      <button onclick="playSound('damaged_delineator.mp3', this)">Damaged Delineator</button>
+      <button onclick="playSound('dead_delineator.mp3', this)">Dead Delineator</button>
+      <button onclick="playSound('good_delineator.mp3', this)">Good Delineator</button>
+      <button onclick="playSound('leaning_delineator.mp3', this)">Leaning Delineator</button>
+      <button onclick="playSound('faded_delineator.mp3', this)">Faded Delineator</button>
+    </div>
+  </div>
+
+  <!-- Lighting Commands -->
+  <div class="section section--lighting">
+    <div class="section-title">Lighting Commands</div>
+    <div class="buttons">
+      <button onclick="playSound('damaged_lighting.mp3', this)">Damaged Lighting</button>
+      <button onclick="playSound('missing_lighting.mp3', this)">Missing Lighting</button>
+      <button onclick="playSound('lighting_off.mp3', this)">Lighting Off</button>
+      <button onclick="playSound('good_lighting.mp3', this)">Good Lighting</button>
+      <button onclick="playSound('leaning_lighting.mp3', this)">Leaning Lighting</button>
+    </div>
+  </div>
+
+  <!-- Sign Commands -->
+  <div class="section section--sign">
+    <div class="section-title">Sign Commands</div>
+    <div class="buttons">
+      <button onclick="playSound('dead_sign.mp3', this)">Dead Sign</button>
+      <button onclick="playSound('missing_sign.mp3', this)">Missing Sign</button>
+      <button onclick="playSound('damaged_sign.mp3', this)">Damaged Sign</button>
+      <button onclick="playSound('good_sign.mp3', this)">Good Sign</button>
+      <button onclick="playSound('leaning_sign.mp3', this)">Leaning Sign</button>
+      <button onclick="playSound('faded_sign.mp3', this)">Faded Sign</button>
+    </div>
+  </div>
+
+  <!-- Striping Commands -->
+  <div class="section section--striping">
+    <div class="section-title">Striping Commands</div>
+    <div class="buttons">
+      <button onclick="playSound('not_good_striping.mp3', this)">Not Good Striping</button>
+      <button onclick="playSound('missing_striping.mp3', this)">Missing Striping</button>
+      <button onclick="playSound('dead_striping.mp3', this)">Dead Striping</button>
+      <button onclick="playSound('good_striping.mp3', this)">Good Striping</button>
+      <button onclick="playSound('faded_striping.mp3', this)">Faded Striping</button>
+    </div>
+  </div>
+
+  <!-- Reflective Pavement Marker Commands -->
+  <div class="section section--rpm">
+    <div class="section-title">Reflective Pavement Marker Commands</div>
+    <div class="buttons">
+      <button onclick="playSound('rpm_less_than_10_missing.mp3', this)">Less Than 10% Missing</button>
+      <button onclick="playSound('rpm_10_to_50_missing.mp3', this)">10 to 50% Missing</button>
+      <button onclick="playSound('rpm_more_than_50_missing.mp3', this)">More Than 50% Missing</button>
+    </div>
+  </div>
+
+</div>
 
 <script>
-function playSound(file) {
+  function playSound(file, btn) {
     const audio = new Audio(file);
     audio.play();
-}
+    if (btn) {
+      btn.classList.add('playing');
+      setTimeout(() => btn.classList.remove('playing'), 300);
+    }
+  }
 </script>
 
 </body>
